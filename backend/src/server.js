@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 require('dotenv').config();
+const adminRoutes = require('./routes/adminRoutes');
+
 
 const connectDB = require('./config/db');
 const { initSocket } = require('./socket');
@@ -20,6 +22,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'CampusCourier API is running 🚀' });
 });
 
+app.use('/api/admin', adminRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/deliveries', deliveryRoutes);
