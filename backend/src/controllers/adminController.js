@@ -30,7 +30,6 @@ const updateComplaintStatus = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, deleteUser, adjustUserCredits, getAllDeliveries, cancelDelivery, getAllComplaints, updateComplaintStatus };
 // @route   GET /api/admin/users
 const getAllUsers = async (req, res) => {
     try {
@@ -46,7 +45,7 @@ const deleteUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
-
+        
         await user.deleteOne();
         res.status(200).json({ message: 'User deleted' });
     } catch (error) {
@@ -60,11 +59,11 @@ const adjustUserCredits = async (req, res) => {
         const { amount } = req.body; // can be positive or negative
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
-
+        
         user.campusCredits += Number(amount);
         if (user.campusCredits < 0) user.campusCredits = 0; // never let it go negative from admin action
         await user.save();
-
+        
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -75,9 +74,9 @@ const adjustUserCredits = async (req, res) => {
 const getAllDeliveries = async (req, res) => {
     try {
         const deliveries = await Delivery.find()
-            .populate('requestedBy', 'name email')
-            .populate('deliveryPartner', 'name email')
-            .sort({ createdAt: -1 });
+        .populate('requestedBy', 'name email')
+        .populate('deliveryPartner', 'name email')
+        .sort({ createdAt: -1 });
         res.status(200).json(deliveries);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -89,11 +88,11 @@ const cancelDelivery = async (req, res) => {
     try {
         const delivery = await Delivery.findById(req.params.id);
         if (!delivery) return res.status(404).json({ message: 'Delivery not found' });
-
+        
         if (delivery.status === 'delivered') {
             return res.status(400).json({ message: 'Cannot cancel a completed delivery' });
         }
-
+        
         delivery.status = 'cancelled';
         await delivery.save();
         res.status(200).json(delivery);
@@ -102,4 +101,4 @@ const cancelDelivery = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, deleteUser, adjustUserCredits, getAllDeliveries, cancelDelivery };
+module.exports = { getAllUsers, deleteUser, adjustUserCredits, getAllDeliveries, cancelDelivery, getAllComplaints, updateComplaintStatus };

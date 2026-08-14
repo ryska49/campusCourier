@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const protect = require('../middleware/authMiddleware');
-const { requestDelivery, getAvailableDeliveries, acceptDelivery, verifyPickup, verifyDelivery, getMyRequests, getMyAcceptedDeliveries, rateDelivery } = require('../controllers/deliveryController');
+const { requestDelivery, getAvailableDeliveries, acceptDelivery, verifyPickup, verifyDelivery, getMyRequests, getMyAcceptedDeliveries, rateDelivery, fileComplaint } = require('../controllers/deliveryController');
 
 router.post('/rate/:id', protect, rateDelivery);
 router.post('/request', protect, requestDelivery);

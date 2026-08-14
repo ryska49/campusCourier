@@ -287,6 +287,7 @@ module.exports = {
     verifyDelivery,
     getMyRequests,
     getMyAcceptedDeliveries,
-    rateDelivery, // add this
+    rateDelivery,
+    fileComplaint,
 };
 
