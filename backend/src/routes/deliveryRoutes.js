@@ -11,5 +11,6 @@ router.post('/deliver/:id', protect, verifyDelivery);
 router.get('/my-accepted', protect, getMyAcceptedDeliveries);
 router.get('/my-requests', protect, getMyRequests);
 router.get('/available', protect, getAvailableDeliveries);
+router.post('/complaint', protect, fileComplaint);
 
 module.exports = router;

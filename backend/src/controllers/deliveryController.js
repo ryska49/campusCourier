@@ -3,8 +3,30 @@ const Transaction = require('../models/Transaction');
 const User = require('../models/User');
 const createNotification = require('../utils/createNotification');
 const { getIO } = require('../socket');
-// Helper: generate a random 4-digit code
+const Complaint = require('../models/Complaint'); 
 const generateCode = () => Math.floor(1000 + Math.random() * 9000).toString();
+
+// @route   POST /api/deliveries/complaint
+const fileComplaint = async (req, res) => {
+    try {
+        const { subject, description, deliveryId } = req.body;
+
+        if (!subject || !description) {
+            return res.status(400).json({ message: 'Subject and description are required' });
+        }
+
+        const complaint = await Complaint.create({
+            filedBy: req.user._id,
+            relatedDelivery: deliveryId || null,
+            subject,
+            description,
+        });
+
+        res.status(201).json(complaint);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
 
 // @route   POST /api/deliveries/request
 const requestDelivery = async (req, res) => {
