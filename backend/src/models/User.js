@@ -15,11 +15,16 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true, // will store the HASHED password, never plain text
+        required: false, // optional — Google OAuth users have no password
+    },
+    authProvider: {
+        type: String,
+        enum: ['email', 'google'],
+        default: 'email',
     },
     role: {
         type: String,
-        enum: ['student', 'admin'], // everyone is a 'student' by default; 'admin' reserved for Phase 11
+        enum: ['student', 'admin'],
         default: 'student',
     },
     campusCredits: {

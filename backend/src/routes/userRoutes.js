@@ -14,4 +14,4 @@ router.get('/credits', protect, getCredits);
 router.get('/transactions', protect, getTransactions);
 router.get('/profile', protect, getProfile);
 
-module.exports = router;
+module.exports = router; 
