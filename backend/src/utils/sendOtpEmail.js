@@ -1,14 +1,18 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER, // your Gmail address
-        pass: process.env.EMAIL_PASS, // Gmail App Password (NOT your real password)
-    },
-});
-
 const sendOtpEmail = async (email, otp) => {
+    // Create transporter fresh each call so env var changes take effect without restart
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+
+    // Verify credentials before trying to send — throws a clear error if wrong
+    await transporter.verify();
+
     await transporter.sendMail({
         from: `CampusCourier 📦 <${process.env.EMAIL_USER}>`,
         to: email,
